@@ -26,13 +26,15 @@ export default {
 .recommend {
   display: flex;
   width: 100%;
+  text-align: center;
+  font-size: 12px;
+  padding: 10px 0 20px;
+  border-bottom: 10px solid #eee;
 }
 .recommend_nav {
   flex: 1;
-  padding: 10px;
 }
 .recommend_nav img {
-  width: 80px;
-  height: 80px;
+  width: 65px;
 }
 </style>

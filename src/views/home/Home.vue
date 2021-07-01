@@ -1,15 +1,127 @@
 <template>
-  <div id="home">
-    <nav-bar><div slot="center" class="home_nav_center">购物街</div></nav-bar>
+  <div class="home">
+    <nav-bar class="home_nav"
+      ><div slot="center" class="home_nav_center">购物街</div></nav-bar
+    >
     <home-swiper :banners="banners"></home-swiper>
     <recommend-view :recommends="recommends"></recommend-view>
+    <feature-view></feature-view>
+    <tab-control
+      :titles="['流行', '新款', '精选']"
+      class="tab-control"
+    ></tab-control>
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
+import TabControl from "components/content/tabcontrol/TabControl";
+
 import HomeSwiper from "views/home/childComps/HomeSwiper";
 import RecommendView from "views/home/childComps/RecommendView";
+import FeatureView from "views/home/childComps/FeatureView";
 
 import { getHomeMultidata } from "network/home";
 
@@ -19,6 +131,8 @@ export default {
     NavBar,
     HomeSwiper,
     RecommendView,
+    FeatureView,
+    TabControl,
   },
   data() {
     return {
@@ -38,7 +152,8 @@ export default {
 </script>
 
 <style scoped>
-.home_nav_center {
+.tab-control {
   position: sticky;
+  top: 44px;
 }
 </style>
