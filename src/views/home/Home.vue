@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div id="home">
     <nav-bar class="home_nav"
       ><div slot="center" class="home_nav_center">购物街</div></nav-bar
     >
@@ -153,7 +153,24 @@ export default {
 
 <style scoped>
 .tab-control {
-  position: sticky;
-  top: 44px;
+  position: relative;
+  z-index: 9;
+}
+#home {
+  /*padding-top: 44px;*/
+  height: 100vh;
+  position: relative;
+}
+
+.home-nav {
+  /* background-color: var(--color-tint);
+  color: #fff; */
+
+  /* 在使用浏览器原生滚动时, 为了让导航不跟随一起滚动*/
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 9;
 }
 </style>

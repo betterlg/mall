@@ -3,7 +3,7 @@
     <tab-bar-item path="/home">
       <img
         slot="item-icon"
-        src="supermall\src\assets\img\tabbar\home.svg"
+        src="supermall/src/assets/img/tabbar/home.svg"
         alt=""
       />
       <img
