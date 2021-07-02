@@ -123,7 +123,7 @@ import HomeSwiper from "views/home/childComps/HomeSwiper";
 import RecommendView from "views/home/childComps/RecommendView";
 import FeatureView from "views/home/childComps/FeatureView";
 
-import { getHomeMultidata } from "network/home";
+import { getHomeMultidata, getHomeGoods } from "network/home";
 
 export default {
   name: "Home",
@@ -138,15 +138,23 @@ export default {
     return {
       banners: [],
       recommends: [],
+      goods: {
+        pop: { page: 0, list: [] },
+        news: { page: 0, list: [] },
+        sell: { page: 0, list: [] },
+      },
     };
   },
   created() {
     // 1.请求多个数据
     getHomeMultidata().then((res) => {
-      console.log(res);
       this.banners = res.data.banner.list;
       this.recommends = res.data.recommend.list;
-    });
+    }),
+      getHomeGoods("pop", 1).then((res) => {
+        console.log(res);
+        this.goods = res.data.list;
+      });
   },
 };
 </script>
