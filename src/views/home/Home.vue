@@ -1,28 +1,17 @@
 <template>
-  <div id="home">
-    <nav-bar class="home_nav"
-      ><div slot="center" class="home_nav_center">购物街</div></nav-bar
-    >
-    <home-swiper :banners="banners"></home-swiper>
-    <recommend-view :recommends="recommends"></recommend-view>
-    <feature-view></feature-view>
+  <div id="home" class="wrapper">
+    <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
+
+    <home-swiper :banners="banners" />
+    <recommend-view :recommends="recommends" />
+    <feature-view />
     <tab-control
       :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"
       class="tab-control"
-    ></tab-control>
+    />
+    <goods-list :goods="showGoods" />
     <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -116,23 +105,25 @@
 </template>
 
 <script>
+import HomeSwiper from "./childComps/HomeSwiper";
+import RecommendView from "./childComps/RecommendView";
+import FeatureView from "./childComps/FeatureView";
+
 import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabcontrol/TabControl";
-
-import HomeSwiper from "views/home/childComps/HomeSwiper";
-import RecommendView from "views/home/childComps/RecommendView";
-import FeatureView from "views/home/childComps/FeatureView";
+import GoodsList from "components/content/goods/GoodsList";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
 
 export default {
   name: "Home",
   components: {
-    NavBar,
     HomeSwiper,
     RecommendView,
     FeatureView,
+    NavBar,
     TabControl,
+    GoodsList,
   },
   data() {
     return {
@@ -140,30 +131,64 @@ export default {
       recommends: [],
       goods: {
         pop: { page: 0, list: [] },
-        news: { page: 0, list: [] },
+        new: { page: 0, list: [] },
         sell: { page: 0, list: [] },
       },
+      currentType: "pop",
     };
+  },
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
+    },
   },
   created() {
     // 1.请求多个数据
-    getHomeMultidata().then((res) => {
-      this.banners = res.data.banner.list;
-      this.recommends = res.data.recommend.list;
-    }),
-      getHomeGoods("pop", 1).then((res) => {
-        console.log(res);
-        this.goods = res.data.list;
+    this.getHomeMultidata();
+
+    // 2.请求商品数据
+    this.getHomeGoods("pop");
+    this.getHomeGoods("new");
+    this.getHomeGoods("sell");
+  },
+  methods: {
+    /**
+     * 事件监听相关的方法
+     */
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currentType = "pop";
+          break;
+        case 1:
+          this.currentType = "new";
+          break;
+        case 2:
+          this.currentType = "sell";
+          break;
+      }
+    },
+    /**
+     * 网络请求相关的方法
+     */
+    getHomeMultidata() {
+      getHomeMultidata().then((res) => {
+        this.banners = res.data.banner.list;
+        this.recommends = res.data.recommend.list;
       });
+    },
+    getHomeGoods(type) {
+      const page = this.goods[type].page + 1;
+      getHomeGoods(type, page).then((res) => {
+        this.goods[type].list.push(...res.data.list);
+        this.goods[type].page += 1;
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
-.tab-control {
-  position: relative;
-  z-index: 9;
-}
 #home {
   /*padding-top: 44px;*/
   height: 100vh;
@@ -171,14 +196,35 @@ export default {
 }
 
 .home-nav {
-  /* background-color: var(--color-tint);
-  color: #fff; */
+  background-color: var(--color-tint);
+  color: #fff;
 
-  /* 在使用浏览器原生滚动时, 为了让导航不跟随一起滚动*/
-  position: fixed;
+  /*在使用浏览器原生滚动时, 为了让导航不跟随一起滚动*/
+  /*position: fixed;*/
+  /*left: 0;*/
+  /*right: 0;*/
+  /*top: 0;*/
+  /*z-index: 9;*/
+}
+
+.content {
+  overflow: hidden;
+
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
   left: 0;
   right: 0;
-  top: 0;
+}
+
+.tab-control {
+  position: relative;
   z-index: 9;
 }
+
+/*.content {*/
+/*height: calc(100% - 93px);*/
+/*overflow: hidden;*/
+/*margin-top: 44px;*/
+/*}*/
 </style>
