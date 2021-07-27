@@ -1,10 +1,10 @@
 <template>
-  <div class="goods-item">
-    <img :src="goodsItem.show.img" alt="" />
+  <div class="goods-item" @click="itemClick">
+    <img v-lazy="shouImage" alt="" @load="imageLoad">
     <div class="goods-info">
-      <p>{{ goodsItem.title }}</p>
-      <span class="price">{{ goodsItem.price }}</span>
-      <span class="collect">{{ goodsItem.cfav }}</span>
+      <p>{{goodsItem.title}}</p>
+      <span class="price">{{goodsItem.price}}</span>
+      <span class="collect">{{goodsItem.cfav}}</span>
     </div>
   </div>
 </template>
@@ -16,11 +16,29 @@ export default {
     goodsItem: {
       type: Object,
       default() {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
-};
+  computed: {
+    shouImage() {
+      return this.goodsItem.image || this.goodsItem.show.img
+    }
+  },
+  methods: {
+    imageLoad() {
+      this.$bus.$emit('itemImageLoad')
+    /*  if(this.$route.path.indexOf('/home')) {
+        this.$bus.$emit('homeItemImageLoad')
+      } else  if(this.$route.path.indexOf('/detail')) {
+        this.$bus.$emit('detailItemImageLoad')
+      }*/
+    },
+    itemClick() {
+      this.$router.push('/detail/'+this.goodsItem.iid)
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -37,11 +55,11 @@ export default {
 }
 
 .goods-info {
-  font-size: 12px;
   position: absolute;
   bottom: 5px;
   left: 0;
   right: 0;
+  font-size: 12px;
   overflow: hidden;
   text-align: center;
 }
@@ -63,7 +81,7 @@ export default {
 }
 
 .goods-info .collect::before {
-  content: "";
+  content: '';
   position: absolute;
   left: -15px;
   top: -1px;
